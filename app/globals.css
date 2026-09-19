@@ -25,6 +25,43 @@ body {
   align-items: center;
   gap: 12px;
 }
+.top-header {
+  justify-content: space-between;
+  background: transparent;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  width: 48px;
+  height: 48px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 30px;
+}
+
+.brand h2 {
+  color: #ffffff;
+  font-size: 23px;
+  font-weight: 800;
+}
+
+.brand h2 span {
+  color: #1687ff;
+}
+
+.brand p {
+  color: #aebdd3;
+  font-size: 14px;
+  margin-top: 4px;
+  }
 
 .logo {
   font-size: 38px;
