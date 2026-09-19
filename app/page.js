@@ -1,4 +1,5 @@
 import Header from "../components/Header";
+import BottomNav from "../components/BottomNav";
 
 export default function Home() {
   return (
@@ -56,6 +57,7 @@ export default function Home() {
 </section>
 
       <h1>POLYTECHNIC HUB</h1>
+    <BottomNav />
     </main>
   );
 }
