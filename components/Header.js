@@ -1,6 +1,7 @@
 export default function Header() {
   return (
     <header className="top-header">
+
       <div className="brand">
         <div className="logo">🎓</div>
 
@@ -12,6 +13,20 @@ export default function Header() {
           <p>Learn • Practice • Grow</p>
         </div>
       </div>
+
+      <div className="header-actions">
+
+        <button className="notification">
+          🔔
+          <span></span>
+        </button>
+
+        <div className="profile">
+          👤
+        </div>
+
+      </div>
+
     </header>
   );
     }
