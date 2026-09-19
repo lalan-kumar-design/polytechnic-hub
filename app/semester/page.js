@@ -1,7 +1,13 @@
+"use client";
+
 import Header from "../../components/Header";
 import BottomNav from "../../components/BottomNav";
 
 export default function SemesterPage() {
+  const selectSemester = (semester) => {
+    window.location.href = `/semester/${semester}`;
+  };
+
   return (
     <main>
       <Header />
@@ -10,6 +16,7 @@ export default function SemesterPage() {
 
         <section className="welcome">
           <h1>Choose Semester</h1>
+
           <p>
             Select your semester to continue
           </p>
@@ -17,12 +24,29 @@ export default function SemesterPage() {
 
         <section className="semester-grid">
 
-          <button>1st Semester</button>
-          <button>2nd Semester</button>
-          <button>3rd Semester</button>
-          <button>4th Semester</button>
-          <button>5th Semester</button>
-          <button>6th Semester</button>
+          <button onClick={() => selectSemester("1")}>
+            1st Semester
+          </button>
+
+          <button onClick={() => selectSemester("2")}>
+            2nd Semester
+          </button>
+
+          <button onClick={() => selectSemester("3")}>
+            3rd Semester
+          </button>
+
+          <button onClick={() => selectSemester("4")}>
+            4th Semester
+          </button>
+
+          <button onClick={() => selectSemester("5")}>
+            5th Semester
+          </button>
+
+          <button onClick={() => selectSemester("6")}>
+            6th Semester
+          </button>
 
         </section>
 
@@ -31,4 +55,4 @@ export default function SemesterPage() {
       <BottomNav />
     </main>
   );
-    }
+              }
