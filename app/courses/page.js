@@ -17,17 +17,22 @@ export default function Courses() {
 
         <section className="courses-page">
 
-          <div className="branch-card">
-            <img
-              src="/images/civil.webp"
-              alt="Civil Engineering"
-            />
+          <div
+  className="branch-card"
+  onClick={() => {
+    window.location.href = "/courses/civil";
+  }}
+>
+  <img
+    src="/images/civil.webp"
+    alt="Civil Engineering"
+  />
 
-            <div className="branch-info">
-              <h2>Civil Engineering</h2>
-              <p>6 Subjects</p>
-            </div>
-          </div>
+  <div className="branch-info">
+    <h2>Civil Engineering</h2>
+    <p>6 Subjects</p>
+  </div>
+</div>
            <div className="branch-card">
   <img
     src="/images/electrical.webp"
