@@ -59,3 +59,38 @@ body {
   font-size: 16px;
   line-height: 1.5;
 }
+.hero {
+  margin: 5px 20px 0;
+  min-height: 250px;
+  border-radius: 20px;
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(2, 20, 40, 0.98),
+      rgba(3, 42, 75, 0.75)
+    );
+
+  border: 1px solid rgba(70, 130, 190, 0.3);
+}
+
+.hero-content {
+  padding: 35px 25px;
+}
+
+.hero h2 {
+  font-size: 32px;
+  line-height: 1.15;
+}
+
+.hero h2 span {
+  color: #1687ff;
+}
+
+.hero p {
+  margin-top: 15px;
+  color: #d0dbea;
+  font-size: 15px;
+  line-height: 1.6;
+      }
