@@ -689,3 +689,9 @@ main {
   font-weight: 700;
   text-decoration: none;
   }
+.auth-error {
+  margin-bottom: 15px;
+  color: #ff6b78;
+  font-size: 13px;
+  line-height: 1.4;
+  }
