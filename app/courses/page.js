@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Header from "../../components/Header";
 import BottomNav from "../../components/BottomNav";
 
@@ -17,12 +18,7 @@ export default function Courses() {
 
         <section className="courses-page">
 
-          <div
-  className="branch-card"
-  onClick={() => {
-    window.location.href = "/loading";
-  }}
->
+          <Link href="/loading" className="branch-card">
   <img
     src="/images/civil.webp"
     alt="Civil Engineering"
@@ -31,7 +27,7 @@ export default function Courses() {
   <div className="branch-info">
     <h2>Civil Engineering</h2>
     <p>6 Subjects</p>
-  </div>
+  </Link>
 </div>
            <div className="branch-card">
   <img
