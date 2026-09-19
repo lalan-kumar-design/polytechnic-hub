@@ -301,3 +301,55 @@ main {
   max-width: 900px;
   margin: 0 auto;
 }
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.notification {
+  position: relative;
+
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+  background: transparent;
+
+  font-size: 22px;
+  color: white;
+}
+
+.notification span {
+  position: absolute;
+
+  top: 6px;
+  right: 5px;
+
+  width: 8px;
+  height: 8px;
+
+  background: #ff4050;
+  border-radius: 50%;
+}
+
+.profile {
+  width: 43px;
+  height: 43px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #163653;
+
+  border: 1px solid rgba(120, 170, 215, 0.4);
+
+  font-size: 21px;
+  }
