@@ -27,8 +27,8 @@ export default function Courses() {
   <div className="branch-info">
     <h2>Civil Engineering</h2>
     <p>6 Subjects</p>
-  </Link>
 </div>
+    </Link>
            <div className="branch-card">
   <img
     src="/images/electrical.webp"
