@@ -115,6 +115,11 @@ body {
 
   border: 1px solid rgba(70, 130, 190, 0.3);
   }
+.hero::after {
+  content: "";
+  display: block;
+  height: 1px;
+  }
 
 .hero-content {
   padding: 35px 25px;
@@ -154,3 +159,22 @@ body {
   background: #020d1c !important;
   color: white !important;
   }
+@media (max-width: 600px) {
+  .hero {
+    min-height: 260px;
+    margin-left: 18px;
+    margin-right: 18px;
+  }
+
+  .hero-content {
+    padding: 28px 20px;
+  }
+
+  .hero h2 {
+    font-size: 28px;
+  }
+
+  .hero p {
+    font-size: 14px;
+  }
+}
