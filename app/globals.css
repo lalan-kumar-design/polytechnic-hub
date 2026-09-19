@@ -248,3 +248,48 @@ body {
 .quick-card:nth-child(4) .quick-icon {
   background: #e85a63;
 }
+.bottom-nav {
+  position: fixed;
+  left: 50%;
+  bottom: 0;
+
+  transform: translateX(-50%);
+
+  width: 100%;
+  max-width: 720px;
+
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+
+  padding: 10px 8px 14px;
+
+  background: rgba(4, 22, 40, 0.97);
+  backdrop-filter: blur(15px);
+
+  border-top: 1px solid rgba(80, 140, 190, 0.25);
+
+  z-index: 100;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+
+  color: #8fa3bb;
+  text-decoration: none;
+}
+
+.nav-item span {
+  font-size: 25px;
+  line-height: 1;
+}
+
+.nav-item small {
+  font-size: 12px;
+}
+
+.nav-item.active {
+  color: #1687ff;
+  }
