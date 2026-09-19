@@ -29,6 +29,31 @@ export default function Home() {
 </button>
   </div>
 </section>
+    <section className="quick-access">
+  <div className="quick-card">
+    <div className="quick-icon">📚</div>
+    <h3>Notes</h3>
+    <p>Study Notes</p>
+  </div>
+
+  <div className="quick-card">
+    <div className="quick-icon">📝</div>
+    <h3>PYQ</h3>
+    <p>Previous Year Questions</p>
+  </div>
+
+  <div className="quick-card">
+    <div className="quick-icon">🎯</div>
+    <h3>Quiz</h3>
+    <p>Test Your Knowledge</p>
+  </div>
+
+  <div className="quick-card">
+    <div className="quick-icon">📖</div>
+    <h3>Study Materials</h3>
+    <p>Books, PDFs & More</p>
+  </div>
+</section>
 
       <h1>POLYTECHNIC HUB</h1>
     </main>
