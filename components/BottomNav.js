@@ -5,22 +5,22 @@ export default function BottomNav() {
     <nav className="bottom-nav">
 
       <Link href="/" className="nav-item active">
-        <span>⌂</span>
+        <img src="/images/home.png" alt="Home" />
         <small>Home</small>
       </Link>
 
       <Link href="/courses" className="nav-item">
-        <span>▣</span>
+        <img src="/images/courses.png" alt="Courses" />
         <small>Courses</small>
       </Link>
 
       <Link href="/videos" className="nav-item">
-        <span>▶</span>
+        <img src="/images/videos.png" alt="Videos" />
         <small>Videos</small>
       </Link>
 
       <Link href="/help" className="nav-item">
-        <span>?</span>
+        <img src="/images/help.png" alt="Help" />
         <small>Help</small>
       </Link>
 
