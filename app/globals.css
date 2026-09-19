@@ -14,3 +14,33 @@ body {
   color: white;
   font-family: Arial, Helvetica, sans-serif;
 }
+.top-header {
+  display: flex;
+  align-items: center;
+  padding: 22px 20px 10px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  font-size: 38px;
+}
+
+.brand h2 {
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.brand h2 span {
+  color: #1687ff;
+}
+
+.brand p {
+  margin-top: 4px;
+  color: #aebdd3;
+  font-size: 13px;
+}
