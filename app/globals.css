@@ -44,3 +44,18 @@ body {
   color: #aebdd3;
   font-size: 13px;
 }
+.welcome {
+  padding: 20px;
+}
+
+.welcome h1 {
+  font-size: 28px;
+  line-height: 1.2;
+}
+
+.welcome p {
+  margin-top: 8px;
+  color: #aebdd3;
+  font-size: 16px;
+  line-height: 1.5;
+}
