@@ -20,7 +20,7 @@ export default function Courses() {
           <div
   className="branch-card"
   onClick={() => {
-    window.location.href = "/courses/civil";
+    window.location.href = "/loading";
   }}
 >
   <img
