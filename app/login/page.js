@@ -1,18 +1,38 @@
 "use client";
 
 import { useState } from "react";
+import { createClient } from "../../lib/supabase/client";
 
 export default function LoginPage() {
+  const supabase = createClient();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
+
+    setLoading(true);
+    setError("");
+
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
+      setError(error.message);
+      setLoading(false);
+      return;
+    }
+
+    window.location.href = "/";
   };
 
   return (
     <main className="auth-page">
-
       <div className="auth-box">
 
         <div className="auth-logo">
@@ -51,8 +71,18 @@ export default function LoginPage() {
             />
           </div>
 
-          <button type="submit" className="auth-button">
-            Login
+          {error && (
+            <p className="auth-error">
+              {error}
+            </p>
+          )}
+
+          <button
+            type="submit"
+            className="auth-button"
+            disabled={loading}
+          >
+            {loading ? "Logging in..." : "Login"}
           </button>
 
         </form>
@@ -63,7 +93,6 @@ export default function LoginPage() {
         </p>
 
       </div>
-
     </main>
   );
     }
