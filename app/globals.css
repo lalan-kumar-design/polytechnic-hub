@@ -178,3 +178,50 @@ body {
     font-size: 14px;
   }
 }
+.quick-access {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+
+  margin: 25px 20px 0;
+}
+
+.quick-card {
+  padding: 18px 12px;
+
+  text-align: center;
+
+  background: #09233d;
+  border: 1px solid rgba(80, 140, 190, 0.25);
+
+  border-radius: 18px;
+}
+
+.quick-icon {
+  width: 58px;
+  height: 58px;
+
+  margin: 0 auto 10px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 16px;
+
+  background: #1687ff;
+
+  font-size: 28px;
+}
+
+.quick-card h3 {
+  font-size: 17px;
+}
+
+.quick-card p {
+  margin-top: 5px;
+
+  color: #aebdd3;
+  font-size: 12px;
+  line-height: 1.4;
+}
