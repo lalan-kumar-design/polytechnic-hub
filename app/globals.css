@@ -521,3 +521,29 @@ main {
     transform: rotate(360deg);
   }
 }
+.semester-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin: 25px 20px 0;
+}
+
+.semester-grid button {
+  min-height: 80px;
+  border: 1px solid rgba(80, 140, 190, 0.25);
+  border-radius: 18px;
+  background: #09233d;
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.semester-grid button:active {
+  transform: scale(0.96);
+}
+
+.semester-grid button:hover {
+  border-color: #1687ff;
+  }
