@@ -399,3 +399,66 @@ main {
 .start-button:hover {
   box-shadow: 0 8px 25px rgba(22, 135, 255, 0.35);
   }
+.courses-section {
+  margin: 30px 20px 0;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 15px;
+}
+
+.section-title h2 {
+  font-size: 23px;
+}
+
+.section-title button {
+  border: none;
+  background: transparent;
+  color: #1687ff;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.course-card {
+  width: 100%;
+  overflow: hidden;
+
+  border-radius: 18px;
+
+  background: #09233d;
+  border: 1px solid rgba(80, 140, 190, 0.25);
+}
+
+.course-image {
+  height: 130px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: linear-gradient(
+    135deg,
+    #123d61,
+    #07528b
+  );
+
+  font-size: 55px;
+}
+
+.course-info {
+  padding: 14px;
+}
+
+.course-info h3 {
+  font-size: 17px;
+}
+
+.course-info p {
+  margin-top: 6px;
+  color: #aebdd3;
+  font-size: 13px;
+}
