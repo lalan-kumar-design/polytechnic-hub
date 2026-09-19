@@ -293,3 +293,6 @@ body {
 .nav-item.active {
   color: #1687ff;
   }
+main {
+  padding-bottom: 85px;
+  }
