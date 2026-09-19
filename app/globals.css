@@ -68,12 +68,16 @@ body {
   background:
     linear-gradient(
       90deg,
-      rgba(2, 20, 40, 0.98),
-      rgba(3, 42, 75, 0.75)
-    );
+      rgba(2, 20, 40, 0.92),
+      rgba(3, 42, 75, 0.55)
+    ),
+    url("/images/home-banner.jpg");
+
+  background-size: cover;
+  background-position: center;
 
   border: 1px solid rgba(70, 130, 190, 0.3);
-}
+  }
 
 .hero-content {
   padding: 35px 25px;
