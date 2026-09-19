@@ -75,6 +75,16 @@ export default function Home() {
       View All →
     </button>
   </div>
+      <div className="course-card">
+  <div className="course-image">
+    🏗️
+  </div>
+
+  <div className="course-info">
+    <h3>Civil Engineering</h3>
+    <p>6 Subjects</p>
+  </div>
+</div>
 
 </section>
 
