@@ -695,3 +695,13 @@ main {
   font-size: 13px;
   line-height: 1.4;
   }
+.auth-success {
+  margin-bottom: 15px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(32, 185, 120, 0.12);
+  border: 1px solid rgba(32, 185, 120, 0.25);
+  color: #55d9a1;
+  font-size: 13px;
+  line-height: 1.4;
+  }
