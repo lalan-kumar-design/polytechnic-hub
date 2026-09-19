@@ -94,3 +94,18 @@ body {
   font-size: 15px;
   line-height: 1.6;
       }
+.start-button {
+  margin-top: 22px;
+  padding: 13px 22px;
+
+  border: none;
+  border-radius: 30px;
+
+  background: #1687ff;
+  color: white;
+
+  font-size: 15px;
+  font-weight: 700;
+
+  cursor: pointer;
+  }
