@@ -388,3 +388,14 @@ main {
     font-size: 19px;
   }
     }
+.start-button {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.start-button:active {
+  transform: scale(0.96);
+}
+
+.start-button:hover {
+  box-shadow: 0 8px 25px rgba(22, 135, 255, 0.35);
+  }
