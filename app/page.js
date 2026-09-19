@@ -24,6 +24,9 @@ export default function Home() {
       <br />
       All in One Place
     </p>
+    <button className="start-button">
+  Start Learning →
+</button>
   </div>
 </section>
 
