@@ -66,6 +66,17 @@ export default function Home() {
       </div>
 
     </section>
+      <section className="courses-section">
+
+  <div className="section-title">
+    <h2>Recent Courses</h2>
+
+    <button>
+      View All →
+    </button>
+  </div>
+
+</section>
 
   </div>
 
