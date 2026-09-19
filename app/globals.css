@@ -225,3 +225,26 @@ body {
   font-size: 12px;
   line-height: 1.4;
 }
+.quick-card {
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.quick-card:active {
+  transform: scale(0.97);
+}
+
+.quick-card:nth-child(1) .quick-icon {
+  background: #20b978;
+}
+
+.quick-card:nth-child(2) .quick-icon {
+  background: #ff9138;
+}
+
+.quick-card:nth-child(3) .quick-icon {
+  background: #8848e8;
+}
+
+.quick-card:nth-child(4) .quick-icon {
+  background: #e85a63;
+}
