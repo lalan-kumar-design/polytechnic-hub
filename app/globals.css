@@ -98,7 +98,7 @@ body {
 }
 .hero {
   margin: 5px 20px 0;
-  aspect-ratio:16/9;
+  min-hight:250px;
   border-radius: 20px;
   overflow: hidden;
 
