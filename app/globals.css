@@ -296,3 +296,8 @@ body {
 main {
   padding-bottom: 85px;
   }
+.home-content {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+}
