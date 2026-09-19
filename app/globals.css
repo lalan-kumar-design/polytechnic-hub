@@ -71,7 +71,7 @@ body {
       rgba(2, 20, 40, 0.92),
       rgba(3, 42, 75, 0.55)
     ),
-    url("/images/home-banner.jpg");
+    url("/images/home-banner.png");
 
   background-size: cover;
   background-position: center;
