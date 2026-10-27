@@ -24,6 +24,11 @@ import {
   addQuiz,
   deleteQuiz,
   formatDriveLink,
+  getVideos,
+  addVideo,
+  deleteVideo,
+  parseYouTubeVideoId,
+  getYouTubeThumbnailUrl,
 } from "../../lib/firebase/services";
 
 export default function AdminPage() {
@@ -49,6 +54,7 @@ export default function AdminPage() {
   const [selectedFolderId, setSelectedFolderId] = useState("");
   const [notes, setNotes] = useState([]);
   const [quizzes, setQuizzes] = useState([]);
+  const [videos, setVideos] = useState([]);
 
   // Form states for creating items
   const [subjectForm, setSubjectForm] = useState({ name: "", code: "", icon: "📚" });
@@ -63,6 +69,12 @@ export default function AdminPage() {
     title: "",
     htmlContent: "",
     description: "",
+  });
+  const [videoForm, setVideoForm] = useState({
+    title: "",
+    youtubeUrl: "",
+    description: "",
+    duration: "40 mins",
   });
 
   const [actionMessage, setActionMessage] = useState("");
@@ -98,8 +110,12 @@ export default function AdminPage() {
 
   const loadSubjects = async () => {
     setLoadingData(true);
-    const list = await getSubjects(selectedBranch, selectedSemester);
+    const [list, vList] = await Promise.all([
+      getSubjects(selectedBranch, selectedSemester),
+      getVideos(selectedBranch, selectedSemester),
+    ]);
     setSubjects(list);
+    setVideos(vList);
     if (list.length > 0) {
       if (!list.find((s) => s.id === selectedSubjectId)) {
         setSelectedSubjectId(list[0].id);
@@ -112,14 +128,16 @@ export default function AdminPage() {
 
   const loadFoldersAndNotes = async (subjId) => {
     setLoadingData(true);
-    const [fList, nList, qList] = await Promise.all([
+    const [fList, nList, qList, vList] = await Promise.all([
       getFolders(subjId),
       getNotes(subjId),
       getQuizzes(subjId),
+      getVideos(selectedBranch, selectedSemester, subjId),
     ]);
     setFolders(fList);
     setNotes(nList);
     setQuizzes(qList);
+    setVideos(vList);
     if (fList.length > 0 && !selectedFolderId) {
       setSelectedFolderId(fList[0].id);
     }
@@ -274,6 +292,46 @@ export default function AdminPage() {
     if (!confirm("Are you sure you want to delete this quiz?")) return;
     await deleteQuiz(id);
     await loadFoldersAndNotes(selectedSubjectId);
+  };
+
+  // Video Handlers
+  const handleCreateVideo = async (e) => {
+    e.preventDefault();
+    if (!videoForm.title.trim() || !videoForm.youtubeUrl.trim()) return;
+
+    const videoId = parseYouTubeVideoId(videoForm.youtubeUrl);
+    if (!videoId) {
+      setActionMessage("⚠️ Please enter a valid YouTube link (e.g. watch, shorts, live, or youtu.be link)");
+      setTimeout(() => setActionMessage(""), 4000);
+      return;
+    }
+
+    setActionMessage("Publishing video lecture...");
+    await addVideo({
+      title: videoForm.title.trim(),
+      youtubeUrl: videoForm.youtubeUrl.trim(),
+      description: videoForm.description.trim(),
+      duration: videoForm.duration.trim() || "40 mins",
+      branchId: selectedBranch,
+      semester: Number(selectedSemester),
+      subjectId: selectedSubjectId || "",
+    });
+
+    setVideoForm({ title: "", youtubeUrl: "", description: "", duration: "40 mins" });
+    setActionMessage("Video lecture published successfully!");
+    setTimeout(() => setActionMessage(""), 3000);
+    const vList = await getVideos(selectedBranch, selectedSemester, selectedSubjectId);
+    setVideos(vList);
+  };
+
+  const handleDeleteVideo = async (id) => {
+    if (!confirm("Are you sure you want to delete this video lecture?")) return;
+    setActionMessage("Deleting video lecture...");
+    await deleteVideo(id);
+    const vList = await getVideos(selectedBranch, selectedSemester, selectedSubjectId);
+    setVideos(vList);
+    setActionMessage("Video deleted.");
+    setTimeout(() => setActionMessage(""), 3000);
   };
 
   // 1. Loading State
@@ -473,7 +531,8 @@ export default function AdminPage() {
             { id: "folders", label: "2. Folders & Units", icon: "📁" },
             { id: "notes", label: "3. Upload Notes (HTML / PDF / Drive)", icon: "📝" },
             { id: "quizzes", label: "4. Add Quizzes (HTML)", icon: "🎯" },
-            { id: "overview", label: "5. Content Overview", icon: "📊" },
+            { id: "videos", label: "5. YouTube Video Lectures", icon: "🎥" },
+            { id: "overview", label: "6. Content Overview", icon: "📊" },
           ].map((tab) => (
             <button
               key={tab.id}
@@ -1440,13 +1499,279 @@ export default function AdminPage() {
           </div>
         )}
 
-        {/* TAB 5: OVERVIEW / STATS */}
+        {/* TAB 5: VIDEO LECTURES (YOUTUBE) */}
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))", gap: "24px" }}>
+              {/* Add Video Form */}
+              <div
+                style={{
+                  background: "#09233d",
+                  padding: "24px",
+                  borderRadius: "20px",
+                  border: "1px solid rgba(80, 140, 190, 0.25)",
+                }}
+              >
+                <h3 style={{ fontSize: "18px", marginBottom: "6px" }}>🎥 Add YouTube Video Lecture</h3>
+                <p style={{ color: "#aebdd3", fontSize: "13px", marginBottom: "18px" }}>
+                  Branch: <strong>{DEFAULT_BRANCHES.find((b) => b.id === selectedBranch)?.name}</strong> | Sem <strong>{selectedSemester}</strong>
+                </p>
+
+                <form onSubmit={handleCreateVideo}>
+                  <div style={{ marginBottom: "14px" }}>
+                    <label style={{ display: "block", fontSize: "13px", marginBottom: "6px" }}>
+                      Link to Subject (Optional)
+                    </label>
+                    <select
+                      value={selectedSubjectId}
+                      onChange={(e) => setSelectedSubjectId(e.target.value)}
+                      style={{
+                        width: "100%",
+                        padding: "10px",
+                        background: "#061a2e",
+                        color: "white",
+                        border: "1px solid rgba(80, 140, 190, 0.3)",
+                        borderRadius: "8px",
+                        fontSize: "14px",
+                      }}
+                    >
+                      <option value="">General Subject Lecture</option>
+                      {subjects.map((s) => (
+                        <option key={s.id} value={s.id}>
+                          {s.icon || "📚"} {s.name} {s.code ? `(${s.code})` : ""}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div style={{ marginBottom: "14px" }}>
+                    <label style={{ display: "block", fontSize: "13px", marginBottom: "6px" }}>
+                      Lecture Title *
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="e.g. Chapter 01: Concept of Limits & Continuity"
+                      value={videoForm.title}
+                      onChange={(e) => setVideoForm({ ...videoForm, title: e.target.value })}
+                      required
+                      style={{
+                        width: "100%",
+                        padding: "12px",
+                        background: "#061a2e",
+                        color: "white",
+                        border: "1px solid rgba(80, 140, 190, 0.3)",
+                        borderRadius: "10px",
+                      }}
+                    />
+                  </div>
+
+                  <div style={{ marginBottom: "16px" }}>
+                    <label style={{ display: "block", fontSize: "13px", marginBottom: "6px" }}>
+                      YouTube Video URL Link *
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="https://www.youtube.com/watch?v=... or https://youtu.be/..."
+                      value={videoForm.youtubeUrl}
+                      onChange={(e) => setVideoForm({ ...videoForm, youtubeUrl: e.target.value })}
+                      required
+                      style={{
+                        width: "100%",
+                        padding: "12px",
+                        background: "#061a2e",
+                        color: "white",
+                        border: "1px solid rgba(80, 140, 190, 0.3)",
+                        borderRadius: "10px",
+                        fontSize: "13px",
+                      }}
+                    />
+                    <small style={{ color: "#aebdd3", fontSize: "11px", marginTop: "4px", display: "block" }}>
+                      ✓ Any YouTube link is supported (watch, youtu.be, shorts, live, or embed).
+                    </small>
+
+                    {/* Instant Live YouTube Preview Thumbnail */}
+                    {parseYouTubeVideoId(videoForm.youtubeUrl) && (
+                      <div
+                        style={{
+                          marginTop: "12px",
+                          borderRadius: "12px",
+                          overflow: "hidden",
+                          border: "1px solid #1687ff",
+                          background: "#000",
+                          position: "relative",
+                        }}
+                      >
+                        <img
+                          src={getYouTubeThumbnailUrl(videoForm.youtubeUrl)}
+                          alt="Thumbnail Preview"
+                          style={{ width: "100%", height: "140px", objectFit: "cover", display: "block" }}
+                        />
+                        <div
+                          style={{
+                            position: "absolute",
+                            bottom: "8px",
+                            left: "8px",
+                            background: "rgba(0,0,0,0.8)",
+                            color: "#20b978",
+                            fontSize: "11px",
+                            padding: "3px 8px",
+                            borderRadius: "4px",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          ✓ YouTube Video Recognized (ID: {parseYouTubeVideoId(videoForm.youtubeUrl)})
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  <div style={{ marginBottom: "14px" }}>
+                    <label style={{ display: "block", fontSize: "13px", marginBottom: "6px" }}>
+                      Duration (Optional)
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="e.g. 45 mins"
+                      value={videoForm.duration}
+                      onChange={(e) => setVideoForm({ ...videoForm, duration: e.target.value })}
+                      style={{
+                        width: "100%",
+                        padding: "10px 12px",
+                        background: "#061a2e",
+                        color: "white",
+                        border: "1px solid rgba(80, 140, 190, 0.3)",
+                        borderRadius: "10px",
+                        fontSize: "13px",
+                      }}
+                    />
+                  </div>
+
+                  <div style={{ marginBottom: "20px" }}>
+                    <label style={{ display: "block", fontSize: "13px", marginBottom: "6px" }}>
+                      Description (Optional)
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="e.g. Board exam pyq solving, complete step by step explanation"
+                      value={videoForm.description}
+                      onChange={(e) => setVideoForm({ ...videoForm, description: e.target.value })}
+                      style={{
+                        width: "100%",
+                        padding: "10px 12px",
+                        background: "#061a2e",
+                        color: "white",
+                        border: "1px solid rgba(80, 140, 190, 0.3)",
+                        borderRadius: "10px",
+                        fontSize: "13px",
+                      }}
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    style={{
+                      width: "100%",
+                      padding: "12px",
+                      background: "#1687ff",
+                      color: "white",
+                      fontWeight: "700",
+                      border: "none",
+                      borderRadius: "10px",
+                      cursor: "pointer",
+                    }}
+                  >
+                    Publish Video Lecture
+                  </button>
+                </form>
+              </div>
+
+              {/* Current Videos List */}
+              <div
+                style={{
+                  background: "#09233d",
+                  padding: "24px",
+                  borderRadius: "20px",
+                  border: "1px solid rgba(80, 140, 190, 0.25)",
+                }}
+              >
+                <h3 style={{ fontSize: "18px", marginBottom: "6px" }}>
+                  🎥 Published Videos ({videos.length})
+                </h3>
+                <p style={{ color: "#aebdd3", fontSize: "13px", marginBottom: "16px" }}>
+                  Branch: {DEFAULT_BRANCHES.find((b) => b.id === selectedBranch)?.name} | Sem {selectedSemester}
+                </p>
+
+                {videos.length === 0 ? (
+                  <div style={{ padding: "30px", textAlign: "center", color: "#aebdd3" }}>
+                    No video lectures added yet. Enter any YouTube URL in the form to publish!
+                  </div>
+                ) : (
+                  <div style={{ display: "flex", flexDirection: "column", gap: "12px", maxHeight: "650px", overflowY: "auto" }}>
+                    {videos.map((v) => (
+                      <div
+                        key={v.id}
+                        style={{
+                          padding: "12px 14px",
+                          background: "#061a2e",
+                          border: "1px solid rgba(80, 140, 190, 0.2)",
+                          borderRadius: "12px",
+                          display: "flex",
+                          gap: "12px",
+                          alignItems: "center",
+                        }}
+                      >
+                        <img
+                          src={getYouTubeThumbnailUrl(v.youtubeUrl)}
+                          alt="thumb"
+                          style={{
+                            width: "75px",
+                            height: "50px",
+                            borderRadius: "8px",
+                            objectFit: "cover",
+                            flexShrink: 0,
+                          }}
+                        />
+
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <div style={{ fontWeight: "700", fontSize: "14px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                            {v.title}
+                          </div>
+                          <div style={{ fontSize: "12px", color: "#aebdd3", marginTop: "2px" }}>
+                            ⏱ {v.duration || "40 mins"} • Sem {v.semester}
+                          </div>
+                        </div>
+
+                        <button
+                          onClick={() => handleDeleteVideo(v.id)}
+                          style={{
+                            padding: "6px 10px",
+                            background: "rgba(239, 68, 68, 0.2)",
+                            color: "#ef4444",
+                            border: "1px solid rgba(239, 68, 68, 0.4)",
+                            borderRadius: "6px",
+                            fontSize: "12px",
+                            cursor: "pointer",
+                            flexShrink: 0,
+                          }}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* TAB 6: OVERVIEW / STATS */}
         {activeTab === "overview" && (
           <div>
             <div
               style={{
                 display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+                gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
                 gap: "16px",
                 marginBottom: "24px",
               }}
@@ -1473,6 +1798,12 @@ export default function AdminPage() {
                 <div style={{ fontSize: "32px", marginBottom: "8px" }}>🎯</div>
                 <div style={{ fontSize: "28px", fontWeight: "800" }}>{quizzes.length}</div>
                 <div style={{ color: "#aebdd3", fontSize: "13px" }}>Quizzes in active Subject</div>
+              </div>
+
+              <div style={{ background: "#09233d", padding: "20px", borderRadius: "16px", border: "1px solid rgba(80, 140, 190, 0.25)" }}>
+                <div style={{ fontSize: "32px", marginBottom: "8px" }}>🎥</div>
+                <div style={{ fontSize: "28px", fontWeight: "800" }}>{videos.length}</div>
+                <div style={{ color: "#aebdd3", fontSize: "13px" }}>Video Lectures in Branch/Sem</div>
               </div>
             </div>
 

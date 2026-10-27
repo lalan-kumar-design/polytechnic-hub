@@ -578,144 +578,103 @@ export default function SubjectDetailPage({ params }) {
               position: "fixed",
               inset: 0,
               zIndex: 99999,
-              background: "#020d1c",
-              display: "flex",
-              flexDirection: "column",
+              background: "#000000",
               width: "100vw",
               height: "100vh",
               overflow: "hidden",
             }}
           >
-            {/* Top Toolbar in Landscape View */}
+            {/* Minimal floating close pill - no bulky headers or external website borders */}
             <div
               style={{
-                height: "56px",
-                minHeight: "56px",
-                background: "#061a2e",
-                borderBottom: "1px solid rgba(80, 140, 190, 0.3)",
+                position: "fixed",
+                top: "12px",
+                right: "14px",
+                zIndex: 100000,
                 display: "flex",
-                justifyContent: "space-between",
+                gap: "8px",
                 alignItems: "center",
-                padding: "0 18px",
-                zIndex: 10,
               }}
             >
-              <div style={{ display: "flex", alignItems: "center", gap: "10px", overflow: "hidden" }}>
-                <span
+              {previewNote.contentType !== "html" && (
+                <a
+                  href={previewNote.content}
+                  target="_blank"
+                  rel="noreferrer"
                   style={{
-                    background: "rgba(22, 135, 255, 0.2)",
-                    color: "#1687ff",
+                    background: "rgba(0, 0, 0, 0.75)",
+                    backdropFilter: "blur(6px)",
+                    color: "#ffffff",
+                    border: "1px solid rgba(255, 255, 255, 0.25)",
+                    padding: "6px 12px",
+                    borderRadius: "20px",
                     fontSize: "12px",
-                    fontWeight: "700",
-                    padding: "4px 8px",
-                    borderRadius: "6px",
-                    whiteSpace: "nowrap",
+                    fontWeight: "600",
+                    textDecoration: "none",
                   }}
                 >
-                  🔄 Landscape Reader
-                </span>
-                <h3
-                  style={{
-                    fontSize: "15px",
-                    fontWeight: "700",
-                    color: "#ffffff",
-                    margin: 0,
-                    whiteSpace: "nowrap",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    maxWidth: "50vw",
-                  }}
-                >
-                  {previewNote.title}
-                </h3>
-              </div>
-
-              <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                {previewNote.contentType !== "html" && (
-                  <a
-                    href={previewNote.content}
-                    target="_blank"
-                    rel="noreferrer"
-                    style={{
-                      padding: "6px 12px",
-                      background: "rgba(22, 135, 255, 0.2)",
-                      border: "1px solid #1687ff",
-                      color: "#1687ff",
-                      borderRadius: "8px",
-                      fontSize: "12px",
-                      textDecoration: "none",
-                      fontWeight: "600",
-                      whiteSpace: "nowrap",
-                    }}
-                  >
-                    Open Link ↗
-                  </a>
-                )}
-
-                <button
-                  onClick={closeNoteFullscreenLandscape}
-                  style={{
-                    padding: "7px 16px",
-                    background: "#ef4444",
-                    color: "#ffffff",
-                    border: "none",
-                    borderRadius: "8px",
-                    fontSize: "13px",
-                    fontWeight: "700",
-                    cursor: "pointer",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "6px",
-                    whiteSpace: "nowrap",
-                  }}
-                  title="Close Fullscreen Landscape"
-                >
-                  <span>✕</span>
-                  <span>Exit</span>
-                </button>
-              </div>
+                  Open External ↗
+                </a>
+              )}
+              <button
+                onClick={closeNoteFullscreenLandscape}
+                style={{
+                  background: "rgba(220, 38, 38, 0.88)",
+                  backdropFilter: "blur(6px)",
+                  color: "#ffffff",
+                  border: "none",
+                  padding: "6px 14px",
+                  borderRadius: "20px",
+                  fontSize: "12px",
+                  fontWeight: "700",
+                  cursor: "pointer",
+                  boxShadow: "0 4px 14px rgba(0,0,0,0.6)",
+                }}
+                title="Exit Fullscreen"
+              >
+                ✕ Close
+              </button>
             </div>
 
-            {/* Note Body (Wide Landscape Mode) */}
-            <div
-              style={{
-                flex: 1,
-                width: "100%",
-                height: "calc(100vh - 56px)",
-                overflowY: "auto",
-                background: "#020d1c",
-                display: "flex",
-                flexDirection: "column",
-              }}
-            >
-              {previewNote.contentType === "html" ? (
+            {/* Immersive Edge-to-Edge Note Content */}
+            {previewNote.contentType === "html" ? (
+              <div
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  overflowY: "auto",
+                  padding: "40px 24px",
+                  background: "#020d1c",
+                  color: "#e2e8f0",
+                  fontSize: "16px",
+                  lineHeight: "1.8",
+                }}
+              >
                 <div
                   style={{
-                    padding: "24px 32px",
-                    maxWidth: "1200px",
-                    width: "100%",
+                    maxWidth: "1000px",
                     margin: "0 auto",
-                    color: "#e2e8f0",
-                    fontSize: "16px",
-                    lineHeight: "1.8",
                   }}
                   dangerouslySetInnerHTML={{ __html: previewNote.content }}
                 />
-              ) : (
-                <iframe
-                  src={previewNote.content}
-                  title={previewNote.title}
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    border: "none",
-                    background: "#ffffff",
-                    flex: 1,
-                  }}
-                  allow="autoplay; fullscreen"
-                />
-              )}
-            </div>
+              </div>
+            ) : (
+              <iframe
+                src={previewNote.content}
+                title={previewNote.title}
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  width: "100vw",
+                  height: "100vh",
+                  border: "none",
+                  margin: 0,
+                  padding: 0,
+                  background: "#000000",
+                }}
+                allow="autoplay; fullscreen"
+              />
+            )}
           </div>
         )}
 
