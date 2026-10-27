@@ -1,14 +1,27 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Header from "../../components/Header";
 import BottomNav from "../../components/BottomNav";
+import { DEFAULT_BRANCHES, getSubjects } from "../../lib/firebase/services";
 
 export default function Courses() {
+  const [subjects, setSubjects] = useState([]);
+
+  useEffect(() => {
+    async function loadData() {
+      const all = await getSubjects();
+      setSubjects(all);
+    }
+    loadData();
+  }, []);
+
   return (
     <main>
       <Header />
 
       <div className="home-content">
-
         <section className="welcome">
           <h1>All Courses</h1>
           <p>
@@ -17,71 +30,33 @@ export default function Courses() {
         </section>
 
         <section className="courses-page">
+          {DEFAULT_BRANCHES.map((branch) => {
+            const count = subjects.filter((s) => s.branchId === branch.id).length;
+            return (
+              <Link
+                key={branch.id}
+                href={`/semester?branch=${branch.id}`}
+                className="branch-card"
+                style={{ textDecoration: "none", color: "inherit", display: "block" }}
+              >
+                <img
+                  src={branch.image}
+                  alt={branch.name}
+                />
 
-          <Link href="/loading" className="branch-card">
-  <img
-    src="/images/civil.webp"
-    alt="Civil Engineering"
-  />
-
-  <div className="branch-info">
-    <h2>Civil Engineering</h2>
-    <p>6 Subjects</p>
-</div>
-    </Link>
-           <div className="branch-card">
-  <img
-    src="/images/electrical.webp"
-    alt="Electrical Engineering"
-  />
-
-  <div className="branch-info">
-    <h2>Electrical Engineering</h2>
-    <p>6 Subjects</p>
-  </div>
-</div>
-
-<div className="branch-card">
-  <img
-    src="/images/mechanical.webp"
-    alt="Mechanical Engineering"
-  />
-
-  <div className="branch-info">
-    <h2>Mechanical Engineering</h2>
-    <p>6 Subjects</p>
-  </div>
-</div>
-
-<div className="branch-card">
-  <img
-    src="/images/computer-science.png"
-    alt="Computer Science Engineering"
-  />
-
-  <div className="branch-info">
-    <h2>Computer Science Engineering</h2>
-    <p>6 Subjects</p>
-  </div>
-</div>
-
-<div className="branch-card">
-  <img
-    src="/images/electronics.png"
-    alt="Electronics Engineering"
-  />
-
-  <div className="branch-info">
-    <h2>Electronics Engineering</h2>
-    <p>6 Subjects</p>
-  </div>
-</div>
-
+                <div className="branch-info">
+                  <h2>{branch.name}</h2>
+                  <p>
+                    {count > 0 ? `${count} Published Subjects` : "6 Semesters Available"}
+                  </p>
+                </div>
+              </Link>
+            );
+          })}
         </section>
-
       </div>
 
       <BottomNav />
     </main>
   );
-    }
+}

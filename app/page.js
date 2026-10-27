@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Header from "../components/Header";
 import BottomNav from "../components/BottomNav";
 
@@ -7,7 +8,6 @@ export default function Home() {
       <Header />
 
       <div className="home-content">
-
         <section className="welcome">
           <h1>Welcome to Polytechnic Hub</h1>
 
@@ -30,43 +30,40 @@ export default function Home() {
               All in One Place
             </p>
 
-            <button className="start-button">
+            <Link href="/courses" className="start-button" style={{ textDecoration: "none", display: "inline-block" }}>
               Start Learning →
-            </button>
+            </Link>
           </div>
         </section>
 
         <section className="quick-access">
-
-          <div className="quick-card">
+          <Link href="/courses" className="quick-card" style={{ textDecoration: "none", color: "inherit" }}>
             <div className="quick-icon">📚</div>
             <h3>Notes</h3>
             <p>Study Notes</p>
-          </div>
+          </Link>
 
-          <div className="quick-card">
+          <Link href="/courses" className="quick-card" style={{ textDecoration: "none", color: "inherit" }}>
             <div className="quick-icon">📝</div>
             <h3>PYQ</h3>
             <p>Previous Year Questions</p>
-          </div>
+          </Link>
 
-          <div className="quick-card">
+          <Link href="/courses" className="quick-card" style={{ textDecoration: "none", color: "inherit" }}>
             <div className="quick-icon">🎯</div>
             <h3>Quiz</h3>
             <p>Test Your Knowledge</p>
-          </div>
+          </Link>
 
-          <div className="quick-card">
+          <Link href="/courses" className="quick-card" style={{ textDecoration: "none", color: "inherit" }}>
             <div className="quick-icon">📖</div>
             <h3>Study Materials</h3>
             <p>Books, PDFs & More</p>
-          </div>
-
+          </Link>
         </section>
-
       </div>
 
       <BottomNav />
     </main>
   );
-    }
+}
